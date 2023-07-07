@@ -3,110 +3,94 @@ from pathlib import Path
 import shutil
 import os
 
-if len(sys.argv) != 2:
-    print('Будь ласка введіть тільки 2 аргументи!')
-    quit()
 
-# шлях до файлу який вказали у консолі
-folder = Path(sys.argv[1])
+class FileSorter:
+    def __init__(self, folder):
+        self.folder = folder
+        self.name_folders = {
+            ('doc', 'docx', 'txt', 'pdf', 'xlsx', 'pptx'): 'documents',
+            ('png', 'jpg', 'jpeg', 'svg'): 'images',
+            ('mp3', 'wav', 'amr', 'ogg'): 'audio',
+            ('mp4', 'avi', 'mov', 'mkv'): 'video',
+            ('zip', 'gz', 'tar'): 'archive'
+        }
 
-# словник за яким буде йти сортування файлів на категорії
-name_folders = {
-    ('doc', 'docx', 'txt', 'pdf', 'xlsx', 'pptx'): 'documents',
-    ('png', 'jpg', 'jpeg', 'svg'): 'images',
-    ('mp3', 'wav', 'amr', 'ogg'): 'audio',
-    ('mp4', 'avi', 'mov', 'mkv'): 'video',
-    ('zip', 'gz', 'tar'): 'archive'
-}
+    def create_folders(self):
+        folder_names = ['images', 'video', 'documents', 'audio', 'archive']
 
-# функція для створення папок, у якіц будуть поміщені усі файли
+        for folder_name in folder_names:
+            folder_path = os.path.join(self.folder, folder_name)
+            os.makedirs(folder_path, exist_ok=True)
 
+    @staticmethod
+    def normalize(name):
+        last_dot_index = name.rfind('.')
+        CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ"
 
-def create_folders(parent_folder_path):
-    folder_names = ['images', 'video',
-                    'documents', 'audio', 'archive']
+        TRANSLATION = ("a", "b", "v", "g", "d", "e", "e", "j", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
+                       "f", "h", "ts", "ch", "sh", "sch", "", "y", "", "e", "yu", "ya", "je", "i", "ji", "g")
 
-    for folder_name in folder_names:
-        folder_path = os.path.join(parent_folder_path, folder_name)
-        os.makedirs(folder_path, exist_ok=True)
+        TRANS = {}
+        res = ''
 
-# функція, яка буде пейменовувати файл з кирилиці на латиницю і всі символи крім букв і цифр заміняти на '_'
+        for c, l in zip(CYRILLIC_SYMBOLS, TRANSLATION):
+            TRANS[ord(c)] = l
+            TRANS[ord(c.upper())] = l.upper()
 
+        for i in name.translate(TRANS)[:last_dot_index]:
+            if i.isalpha() or i.isdigit():
+                res += i
+            else:
+                res += '_'
 
-def normalize(name):
-    last_dot_index = name.rfind('.')
-    CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ"
+        return res + name[last_dot_index:]
 
-    TRANSLATION = ("a", "b", "v", "g", "d", "e", "e", "j", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
-                   "f", "h", "ts", "ch", "sh", "sch", "", "y", "", "e", "yu", "ya", "je", "i", "ji", "g")
+    def sort_files(self):
+        folders = []
+        files = []
 
-    TRANS = {}
-    res = ''
+        if os.path.exists(self.folder):
+            for dirpath, dirnames, filenames in os.walk(self.folder):
+                for file in filenames:
+                    files.append(os.path.join(dirpath, file))
 
-    for c, l in zip(CYRILLIC_SYMBOLS, TRANSLATION):
-        TRANS[ord(c)] = l
-        TRANS[ord(c.upper())] = l.upper()
+                for folderr in dirnames:
+                    folders.append(os.path.join(dirpath, folder))
 
-    for i in name.translate(TRANS)[:last_dot_index]:
-        if i.isalpha() or i.isdigit():
-            res += i
-        else:
-            res += '_'
+        for fl in files:
+            new_name = self.normalize(os.path.basename(fl))
+            path_drctr = os.path.join(self.folder, new_name)
+            os.rename(fl, path_drctr)
 
-    return res + name[last_dot_index:]
+        for dirpath, dirnames, filenames in os.walk(self.folder, topdown=False):
+            for dirname in dirnames:
+                full_path = os.path.join(dirpath, dirname)
+                if not os.listdir(full_path):
+                    os.rmdir(full_path)
 
-# основна функція, яка здійснює сортування файлів по папках
+        self.create_folders()
 
-
-def sort_files(folder):
-    folders = []
-    files = []
-    # проходимось по вказаній папці рекурсивною функцією і зберігаємо шляхи до файлів та папок у відповідні списки
-    if os.path.exists(folder):
-        for dirpath, dirnames, filenames in os.walk(folder):
-            for file in filenames:
-                files.append(os.path.join(dirpath, file))
-
-            for folderr in dirnames:
-                folders.append(os.path.join(dirpath, folder))
-
-    # за допомогою циклу переносимо файливи у кореневу папку
-    # використовуючи функцію normalize перейменовуємо файли
-    for fl in files:
-        new_name = normalize(os.path.basename(fl))
-        path_drctr = os.path.join(folder, new_name)
-        os.rename(fl, path_drctr)
-
-    # знову проходимось по кореневій папці і перевіряємо усі папки і підпапки, якщо вони пусті то видаляємо їх
-    for dirpath, dirnames, filenames in os.walk(folder, topdown=False):
-        for dirname in dirnames:
-            full_path = os.path.join(dirpath, dirname)
-            if not os.listdir(full_path):
-                os.rmdir(full_path)
-
-    # за допомогою цієї функції створюємо папки в які будемо сортувати файли
-    create_folders(folder)
-
-    # проходимось циклом по списку файлів
-    for i in files:
-        for key, value in name_folders.items():  # через словник беремо назви папок і розширення файлів
-            if i.lower().endswith(key):
-                filee = normalize(os.path.basename(i))
-                if value == 'archive':                    # якщо це архів, то розпаковуємо його у ще одну папку, яка має назву архіва, але без розширення
-                    last_dot_index = filee.rfind('.')
-                    folder_path = os.path.join(
-                        f'{folder}\\archive', filee[:last_dot_index])
-                    shutil.unpack_archive(f'{folder}\{filee}', folder_path)
-                    os.remove(f'{folder}\{filee}')
-                else:                                         # переміщаємо файл із кореневої папки у вказану за значенням словника
-                    shutil.move(f'{folder}\{filee}',
-                                f'{folder}\{value}\{filee}')
+        for i in files:
+            for key, value in self.name_folders.items():
+                if i.lower().endswith(key):
+                    filee = self.normalize(os.path.basename(i))
+                    if value == 'archive':
+                        last_dot_index = filee.rfind('.')
+                        folder_path = os.path.join(
+                            f'{self.folder}\\archive', filee[:last_dot_index])
+                        shutil.unpack_archive(
+                            f'{self.folder}\{filee}', folder_path)
+                        os.remove(f'{self.folder}\{filee}')
+                    else:
+                        shutil.move(f'{self.folder}\{filee}',
+                                    f'{self.folder}\{value}\{filee}')
 
 
-def main():
-    sort_files(folder)
-
-
-# викликаємо функцію, яка виконає сортування
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) != 2:
+        print('Будь ласка введіть тільки 2 аргументи!')
+        quit()
+
+    folder = Path(sys.argv[1])
+    file_sorter = FileSorter(folder)
+    file_sorter.sort_files()
