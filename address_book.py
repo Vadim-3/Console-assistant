@@ -13,12 +13,12 @@ class AddressBook():
     filename = Path(fr'{dir_path}\addressbook.json')
 
     def unpackaging(self):
-        with open(self.filename, 'r') as f:
-            self.contacts.update(json.load(f))
+        with open(AddressBook.filename, 'r') as f:
+            AddressBook.contacts.update(json.load(f))
     
     def packaging(self):
-        with open(self.filename, 'w') as f:
-            json.dump(self.contacts, f, indent=4)
+        with open(AddressBook.filename, 'w') as f:
+            json.dump(AddressBook.contacts, f, indent=4)
 
     def input_error(func):
         def inner(*args):
@@ -62,8 +62,7 @@ class AddressBook():
 # створення або редагування запису та повідомляти користувача у разі 
 # некоректного введення;
 
-    def add_contact(self, name=None, address=None, email=None, number=None, birthday=None):
-
+    def add_contact(self, name, address, email, number, birthday):
         if not number:
             number = '-'
         else:
@@ -141,5 +140,3 @@ class AddressBook():
     
     def validate_birthday(self, birthday):
         return bool(re.match(self.birthday_pattern, birthday))
-
-

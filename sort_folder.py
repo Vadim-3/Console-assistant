@@ -55,7 +55,7 @@ class FileSorter:
                     files.append(os.path.join(dirpath, file))
 
                 for folderr in dirnames:
-                    folders.append(os.path.join(dirpath, folder))
+                    folders.append(os.path.join(dirpath, folderr))
 
         for fl in files:
             new_name = self.normalize(os.path.basename(fl))
@@ -86,11 +86,3 @@ class FileSorter:
                                     f'{self.folder}\{value}\{filee}')
 
 
-if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print('Будь ласка введіть тільки 2 аргументи!')
-        quit()
-
-    folder = Path(sys.argv[1])
-    file_sorter = FileSorter(folder)
-    file_sorter.sort_files()

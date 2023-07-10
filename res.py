@@ -1,6 +1,8 @@
-from address_book import AddressBook as ab
+from address_book import AddressBook
+from sort_folder import FileSorter
 from pathlib import Path
 
+ab = AddressBook()
 while True:
     ff = input('Введіть команду: ')
     if ff == '1':
@@ -23,14 +25,28 @@ while True:
                 break
             
     if ff == 'exit':
+        print('Good Bye!')
         break
         
                 
-    if ff == '1':
+    if ff == '2':
         pass
     
-    if ff == '1':
-        pass
-    
-    if ff == '1':
+    if ff == '3':
+        while True:
+            path = input('Введіть шлях до папки: ')
+            
+            if path == 'exit':
+                break 
+            
+            if path:
+                folder = Path(path)
+                file_sorter = FileSorter(folder)
+                file_sorter.sort_files()
+            
+            else:
+                print('Введіть шлях допапки: ')
+            
+
+    if ff == '4':
         pass
