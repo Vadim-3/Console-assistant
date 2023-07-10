@@ -5,82 +5,109 @@ from notess import Note, Notebook
 
 ab = AddressBook()
 while True:
-    ff = input('Введіть команду: ')
+    ff = input('Enter the command: ')
+    
+    if ff == 'exit':
+        print('Good Bye!')
+        break
+    
     if ff == '1':
         if Path(ab.filename).exists():
             ab.unpackaging()
             
         while True:
-            command = input('введіть команду ')
+            command = input('Enter the command: ')
 
-            if command == 'add':
-                name = input("введіть ім'я ")
-                address = input('Введіть адресу ')
-                email = input("введіть email ")
-                number = input("введіть number ")
-                birthday = input('Введіть введіть дату народження ')
-                ab.add_contact(name, address, email, number, birthday)
-                
             if command == 'exit':
                 ab.packaging()
                 break
             
-    if ff == 'exit':
-        print('Good Bye!')
-        break
+            if command == 'add contact':
+                name = input("Enter a name: ")
+                address = input('Enter the address: ')
+                email = input("Enter email: ")
+                number = input("Ener the number: ")
+                birthday = input('Enter your date of birth: ')
+                ab.add_contact(name, address, email, number, birthday)
+                
+            if command == 'birthday':
+                days = input('Enter the number of days: ')
+                ab.days_to_bday(days)
+                
+            if command == 'search contact':
+                name_contact = input("Enter a contact's name to search: ")
+                ab.search_contacts(name_contact)
+            
+            if command == 'edit contact':
+                name_cont = input("Enter a contact for changes: ")
+                edit_value = input("enter something you want to change: ")
+                new_value = input("Enter a new value: ")
+                
+                ab.edit_contact(name_cont, edit_value, new_value)
+            
+            if command == 'delete contact':
+                delete_name = input("Enter the contact to delete: ")
+                ab.delete_contact(delete_name)
+            
         
                 
     if ff == '2':
         notebook = Notebook()
+        print(type(notebook))
         if Path(ab.filename).exists():
             notebook.load_notes("notes.json")
         while True:
-            commandd = input('введіть команду: ')
+            commandd = input('Enter the command: ')
             
             if commandd == 'exit':
                 notebook.save_notes("notes.json")
                 break
             
-            if commandd == 'add':
-                title = input()
-                text = input()
-                tags = input()
+            if commandd == 'add note':
+                title = input("Enter a title: ")
+                text = input("Enter a text: ")
+                tags = input("Enter a tag: ")
                 new_note = Note(title, text, tags)
                 notebook.add_note(new_note)
                 
             if commandd == 'search':
-                sh_words = input('введіть нотатку яку потрібно знайти: ')
+                sh_words = input('Enter a note to search for: ')
                 results = notebook.search_notes(sh_words)
                 for note in results:
                     print(note.title)
                     
             if commandd == 'edit':
-                note_ed = input('введіть нотатку яку потрібно змінити: ')
-                new_title = input('')
-                new_text = input('')
+                note_ed = input('Enter a note to change the shift: ')
+                new_title = input('Enter a title: ')
+                new_text = input('Enter a text: ')
                 founded_note = notebook.search_notes(note_ed)
                 if notebook.edit_note(founded_note, new_title, new_text):
-                    print("Нотатку було успішно відредаговано")
+                    print("The note was edited successfully")
                 else:
-                    print("Нотатку з такою назвою не знайдено")
+                    print("No note with this name was found")
                     
-            if command == 'show all':
+            if commandd == 'show all':
                 for note in notebook.notes:
                     print(note.title, "-", note.text)
                     
             if commandd == 'search by tags':
-                results = notebook.search_notes_by_tags(["план"])
+                tag = input('Enter a tag: ')
+                results = notebook.search_notes_by_tags([tag])
                 for note in results:
                     print(note.title)
             
-            if commandd == 'sort':
+            if commandd == 'sort by tags':
                 notebook.sort_notes_by_tags()
             
+            if commandd == 'delete':
+                wordss = input('Enter a note to delete ')
+                del_note = notebook.search_notes(wordss)
+                notebook.delete_note(del_note)
             
     
     if ff == '3':
         while True:
-            path = input('Введіть шлях до папки: ')
+            path = input('Enter the folder path: ')
             
             if path == 'exit':
                 break 
@@ -91,7 +118,7 @@ while True:
                 file_sorter.sort_files()
             
             else:
-                print('Введіть шлях до папки: ')
+                print('Enter the folder path: ')
             
 
     if ff == '4':

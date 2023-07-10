@@ -67,7 +67,7 @@ class AddressBook():
             number = '-'
         else:
             if not self.validate_phone_number(number):
-                print("Invalid phone number. Please check the format and try again.")
+                print("Invalid number. Please check the format and try again.")
                 return
             
         if not email:
@@ -101,7 +101,7 @@ class AddressBook():
 
         if arg == 'number':
             if not self.validate_phone_number(new_value):
-                print("Invalid phone number. Please check the format and try again.")
+                print("Invalid number. Please check the format and try again.")
                 return
             self.contacts[name][2] = new_value
             print("Contact successfully edited!")
