@@ -20,6 +20,11 @@ while True:
                 
             if command == 'exit':
                 ab.packaging()
+                break
+            
+    if ff == 'exit':
+        break
+        
                 
     if ff == '1':
         pass
