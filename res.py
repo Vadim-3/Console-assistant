@@ -66,7 +66,7 @@ while True:
     if ff == '2':
         notebook = Notebook()
         
-        if Path(ab.filename).exists():
+        if Path(fr'{ab.dir_path}\notes.json').exists():
             notebook.load_notes("notes.json")
             
         while True:
@@ -130,6 +130,7 @@ while True:
                 folder = Path(path)
                 file_sorter = FileSorter(folder)
                 file_sorter.sort_files()
+                print('Sorting completed!')
             
             else:
                 print('Enter the folder path: ')

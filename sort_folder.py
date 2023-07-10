@@ -8,7 +8,7 @@ class FileSorter:
     def __init__(self, folder):
         self.folder = folder
         self.name_folders = {
-            ('doc', 'docx', 'txt', 'pdf', 'xlsx', 'pptx'): 'documents',
+            ('doc', 'docx', 'txt', 'pdf', 'xlsx', 'pptx', 'xls'): 'documents',
             ('png', 'jpg', 'jpeg', 'svg'): 'images',
             ('mp3', 'wav', 'amr', 'ogg'): 'audio',
             ('mp4', 'avi', 'mov', 'mkv'): 'video',

@@ -1,5 +1,5 @@
 import json
-
+from pathlib import Path
 
 
 class Note:
@@ -13,6 +13,8 @@ class Notebook:
     def __init__(self):
         self.notes = []
 
+    dir_path = Path(__file__).parent
+    
 # Додавання нотаток
     def add_note(self, note):
         self.notes.append(note)
@@ -42,7 +44,7 @@ class Notebook:
 
 # Завантаження нотаток з файлу
     def load_notes(self, file_name):
-        with open(file_name, 'r', encoding='utf-8') as file:
+        with open(fr'{Notebook.dir_path}\{file_name}', 'r', encoding='utf-8') as file:
             data = json.load(file)
             for item in data:
                 note = Note(item['title'], item['text'], item['tags'])
