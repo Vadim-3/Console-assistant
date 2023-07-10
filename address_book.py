@@ -54,12 +54,11 @@ class AddressBook():
         for name, args in self.contacts.items():  # Додала цикл по елементам словника
             if search_term.lower() in name.lower() or \
                     any(search_term.lower() in arg.lower() for arg in args):
-                print("Name: {}".format(name)) # змінила все  на англійську
+                print("Name: {}".format(name)) 
                 print("Details: {}".format(', '.join(args)))
                 print("---")
 
-# 4) перевірка на правильність введеного номера телефону та email під час 
-# створення або редагування запису та повідомляти користувача у разі 
+# 4) додавання та перевірка на правильність введеного номера телефону, email та дати народженняпід час створення, або редагування запису та повідомляти користувача у разі 
 # некоректного введення;
 
     def add_contact(self, name, address, email, number, birthday):
@@ -90,6 +89,8 @@ class AddressBook():
         self.contacts[name] = [address, email, number, birthday]
         print("Contact successfully added!")
 
+
+#редагування контакту
     def edit_contact(self, name=None, arg=None, new_value=None):
         if name not in self.contacts:
             print("Contact not found.")
@@ -120,6 +121,8 @@ class AddressBook():
             self.contacts[name][3] = new_value
             print("Contact successfully edited!")
 
+
+#видалення контакту
     def delete_contact(self, name):
         if name not in self.contacts:
             print("Contact not found.")
@@ -128,6 +131,7 @@ class AddressBook():
         del self.contacts[name]
         print("Contact successfully deleted!")
 
+#паттерни і методи для перевірки правильності введення
     number_pattern = re.compile(r"\+?\(?(\d{2})?\)?\-?\(?(0\d{2})\)?\-?\d{3}\-?\d{2}\-?\d{2}")
     email_pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
     birthday_pattern = r"\d{2}\.\d{2}\.\d{4}" 

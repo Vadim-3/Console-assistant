@@ -1,20 +1,32 @@
 from address_book import AddressBook
 from sort_folder import FileSorter
 from pathlib import Path
-from notess import Note, Notebook
+from notes import Note, Notebook
+from commands_docs import display_documentation
 
+#об'єкт класу AddressBook
 ab = AddressBook()
+
+#основний цикл програми
 while True:
+    print('--------------------------\ninfo - вивід всіх команд\nexit - закінчення програми')
     ff = input('Enter the command: ')
-    
+
+#закінчення програми    
     if ff == 'exit':
         print('Good Bye!')
         break
     
+    if ff == 'info':
+        display_documentation()
+
+
+#перша команда, яка відповідає за адресну книгу    
     if ff == '1':
         if Path(ab.filename).exists():
             ab.unpackaging()
-            
+ 
+ #цикл команд з додавання, пошуку, редагування та видалення контакту           
         while True:
             command = input('Enter the command: ')
 
@@ -50,12 +62,13 @@ while True:
                 ab.delete_contact(delete_name)
             
         
-                
+#друга команда, яка відповідає за додаваня, пошук по слова і тегах, редагування, видалення, сортування та вивід нотаток              
     if ff == '2':
         notebook = Notebook()
-        print(type(notebook))
+        
         if Path(ab.filename).exists():
             notebook.load_notes("notes.json")
+            
         while True:
             commandd = input('Enter the command: ')
             
@@ -104,7 +117,8 @@ while True:
                 del_note = notebook.search_notes(wordss)
                 notebook.delete_note(del_note)
             
-    
+  
+#третя команда, яка відповідає за сортування папки
     if ff == '3':
         while True:
             path = input('Enter the folder path: ')
@@ -120,6 +134,3 @@ while True:
             else:
                 print('Enter the folder path: ')
             
-
-    if ff == '4':
-        pass

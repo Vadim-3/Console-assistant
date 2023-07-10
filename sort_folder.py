@@ -85,4 +85,3 @@ class FileSorter:
                         shutil.move(f'{self.folder}\{filee}',
                                     f'{self.folder}\{value}\{filee}')
 
-
