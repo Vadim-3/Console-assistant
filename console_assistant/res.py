@@ -20,15 +20,16 @@ while True:
     if ff == 'exit':
         print('Good Bye!')
         break
-    
+
+#інформація про всі команди    
     if ff == 'info':
         display_documentation()
-
 
 #перша команда, яка відповідає за адресну книгу    
     if ff == 'address book':
         if Path(ab.filename).exists():
             ab.unpackaging()
+ 
  
  #цикл команд з додавання, пошуку, редагування та видалення контакту           
         while True:
