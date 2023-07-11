@@ -101,8 +101,9 @@ def work_func():
                     note_ed = input('Enter a note to change the shift: ')
                     new_title = input('Enter a title: ')
                     new_text = input('Enter a text: ')
-                    founded_note = notebook.search_notes(note_ed)
-                    if notebook.edit_note(founded_note, new_title, new_text):
+                    
+
+                    if notebook.edit_note(note_ed, new_title, new_text):
                         print("The note was edited successfully")
                     else:
                         print("No note with this name was found")
@@ -123,8 +124,13 @@ def work_func():
                 if commandd == 'delete':
                     wordss = input('Enter a note to delete ')
                     del_note = notebook.search_notes(wordss)
-                    aa = del_note[0]
-                    notebook.delete_note(aa)
+                    if len(del_note) == 1:
+                        notebook.delete_note(del_note[0])
+                    else:
+                        for note in del_note:
+                            print(note.title, "-", note.text)
+                        note_number = int(input('Enter a note number witch you want to delete: '))
+                        notebook.delete_note(del_note[note_number - 1])
                 
     
     #третя команда, яка відповідає за пошук погоди у введеному місті

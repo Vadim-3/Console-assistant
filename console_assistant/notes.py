@@ -38,7 +38,7 @@ class Notebook:
                 'text': note.text,
                 'tags': note.tags
             })
-        with open(file_name, 'w') as file:
+        with open(file_name, 'a') as file:
             json.dump(data, file, indent=4)
 
 
