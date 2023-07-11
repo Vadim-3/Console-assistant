@@ -81,7 +81,7 @@ def work_func():
                 commandd = prompt('Enter the command: ', completer=commands_for_notes)
                 
                 if commandd == 'exit':
-                    notebook.save_notes("notes.json")
+                    notebook.save_notes(fr'{ab.dir_path}\notes.json')
                     break
                 
                 if commandd == 'add note':
