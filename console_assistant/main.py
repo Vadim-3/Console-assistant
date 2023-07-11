@@ -116,7 +116,7 @@ def work_func():
                     tag = input('Enter a tag: ')
                     results = notebook.search_notes_by_tags([tag])
                     for note in results:
-                        print(note.title)
+                        print(note.title, "-", note.text)
                 
                 if commandd == 'sort by tags':
                     notebook.sort_notes_by_tags()

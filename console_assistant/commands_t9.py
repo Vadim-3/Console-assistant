@@ -26,7 +26,8 @@ commands_for_notes = WordCompleter([
     'edit',
     'show all',
     'sort by tags',
-    'delete'
+    'delete',
+    'search by tags'
 ])
 
 commands_for_weather = WordCompleter([
