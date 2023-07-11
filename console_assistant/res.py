@@ -3,14 +3,53 @@ from sort_folder import FileSorter
 from pathlib import Path
 from notes import Note, Notebook
 from commands_docs import display_documentation
+from prompt_toolkit import prompt
+from prompt_toolkit.completion import WordCompleter
 
 #об'єкт класу AddressBook
 ab = AddressBook()
 
+print("""
+      
+   __ ________   ___  _______    ____________________
+  / // / __/ /  / _ \/ __/ _ \  /_  __/ __/ __/_  __/
+ / _  / _// /__/ ___/ _// , _/   / / / _/_\ \  / /   
+/_//_/___/____/_/  /___/_/|_|   /_/ /___/___/ /_/    
+                                                     
+
+      """)
+
+#список команд для підказок
+commands_at_statup = WordCompleter([
+    "info",
+    "exit",
+    "address book",
+    "notes",
+    "sort folder"
+])
+
+commands_for_the_ab = WordCompleter([
+    'exit',
+    'add contact',
+    'birthday',
+    'search contact',
+    'edit contact',
+    'delete contact'
+])
+
+commands_for_notes = WordCompleter([
+    'exit',
+    'add note',
+    'search',
+    'edit',
+    'show all',
+    'sort by tags',
+    'delete'
+])
 #основний цикл програми
 while True:
     print('--------------------------\ninfo - вивід всіх команд\nexit - закінчення програми')
-    ff = input('Enter the command: ')
+    ff = prompt('Enter the command: ', completer=commands_at_statup)
 
 #закінчення програми    
     if ff == 'exit':
@@ -22,13 +61,13 @@ while True:
 
 
 #перша команда, яка відповідає за адресну книгу    
-    if ff == '1':
+    if ff == 'address book':
         if Path(ab.filename).exists():
             ab.unpackaging()
  
  #цикл команд з додавання, пошуку, редагування та видалення контакту           
         while True:
-            command = input('Enter the command: ')
+            command = prompt('Enter the command: ', completer=commands_for_the_ab)
 
             if command == 'exit':
                 ab.packaging()
@@ -63,14 +102,14 @@ while True:
             
         
 #друга команда, яка відповідає за додаваня, пошук по слова і тегах, редагування, видалення, сортування та вивід нотаток              
-    if ff == '2':
+    if ff == 'notes':
         notebook = Notebook()
         
         if Path(fr'{ab.dir_path}\notes.json').exists():
             notebook.load_notes("notes.json")
             
         while True:
-            commandd = input('Enter the command: ')
+            commandd = prompt('Enter the command: ', completer=commands_for_notes)
             
             if commandd == 'exit':
                 notebook.save_notes("notes.json")
@@ -119,7 +158,7 @@ while True:
             
   
 #третя команда, яка відповідає за сортування папки
-    if ff == '3':
+    if ff == 'sort folder':
         while True:
             path = input('Enter the folder path: ')
             
