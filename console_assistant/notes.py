@@ -43,13 +43,19 @@ class Notebook:
 
 
 # Завантаження нотаток з файлу
+    # def load_notes(self, file_name):
+    #     with open(fr'{Notebook.dir_path}\{file_name}', 'r', encoding='utf-8') as file:
+    #         data = json.load(file)
+    #         for item in data:
+    #             note = Note(item['title'], item['text'], item['tags'])
+    #             self.add_note(note)
+
     def load_notes(self, file_name):
-        with open(fr'{Notebook.dir_path}\{file_name}', 'r', encoding='utf-8') as file:
+        with open(file_name, 'r') as file:
             data = json.load(file)
             for item in data:
                 note = Note(item['title'], item['text'], item['tags'])
                 self.add_note(note)
-
 
 # Видалення нотатки
     def delete_note(self, note):

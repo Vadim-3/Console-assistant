@@ -13,6 +13,8 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent'],
     packages=find_namespace_packages(),
+    data_files=('console_assistant', ['console_assistant/notes.json']),
+    include_package_data=True,
     entry_points={'console_scripts': [
         'start=console_assisatant.main:main']}  # main.py
 )
