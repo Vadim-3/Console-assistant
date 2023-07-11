@@ -4,48 +4,13 @@ from pathlib import Path
 from notes import Note, Notebook
 from commands_docs import display_documentation
 from prompt_toolkit import prompt
-from prompt_toolkit.completion import WordCompleter
+from commands_t9 import *
+from weather import weather
 
 #об'єкт класу AddressBook
 ab = AddressBook()
 
-print("""
-      
-   __ ________   ___  _______    ____________________
-  / // / __/ /  / _ \/ __/ _ \  /_  __/ __/ __/_  __/
- / _  / _// /__/ ___/ _// , _/   / / / _/_\ \  / /   
-/_//_/___/____/_/  /___/_/|_|   /_/ /___/___/ /_/    
-                                                     
-
-      """)
-
-#список команд для підказок
-commands_at_statup = WordCompleter([
-    "info",
-    "exit",
-    "address book",
-    "notes",
-    "sort folder"
-])
-
-commands_for_the_ab = WordCompleter([
-    'exit',
-    'add contact',
-    'birthday',
-    'search contact',
-    'edit contact',
-    'delete contact'
-])
-
-commands_for_notes = WordCompleter([
-    'exit',
-    'add note',
-    'search',
-    'edit',
-    'show all',
-    'sort by tags',
-    'delete'
-])
+print(PREVIEW)
 #основний цикл програми
 while True:
     print('--------------------------\ninfo - вивід всіх команд\nexit - закінчення програми')
@@ -154,23 +119,33 @@ while True:
             if commandd == 'delete':
                 wordss = input('Enter a note to delete ')
                 del_note = notebook.search_notes(wordss)
-                notebook.delete_note(del_note)
+                aa = del_note[0]
+                notebook.delete_note(aa)
             
   
-#третя команда, яка відповідає за сортування папки
+#третя команда, яка відповідає за пошук погоди у введеному місті
+    if ff == 'weather':
+            while True:
+                commanddd = prompt('Enter the command: ', completer=commands_for_weather)
+                if commanddd == 'get weather':
+                    weather()       
+                    
+                if commanddd == 'exit':
+                    break
+                
+#четверта команда, яка відповідає за сортування папки                
     if ff == 'sort folder':
         while True:
-            path = input('Enter the folder path: ')
+            commandddd = prompt('Enter the command: ', completer=commands_for_sf)
             
-            if path == 'exit':
+            if commandddd == 'exit':
                 break 
             
-            if path:
+            if commandddd == 'sort folder':
+                path = input('Enter the folder path: ')
                 folder = Path(path)
                 file_sorter = FileSorter(folder)
                 file_sorter.sort_files()
                 print('Sorting completed!')
             
-            else:
-                print('Enter the folder path: ')
-            
+    
