@@ -119,7 +119,9 @@ def work_func():
                         print(note.title, "-", note.text)
                 
                 if commandd == 'sort by tags':
-                    notebook.sort_notes_by_tags()
+                    sorted_notes = notebook.sort_notes_by_tags()
+                    for note in sorted_notes:
+                        print(note.title, '-', note.text, '-', note.tags)
                 
                 if commandd == 'delete':
                     wordss = input('Enter a note to delete ')

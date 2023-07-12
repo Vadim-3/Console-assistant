@@ -76,4 +76,5 @@ class Notebook:
 
 # Сортування нотаток за тегами
     def sort_notes_by_tags(self):
-        self.notes.sort(key=lambda note: note.tags)
+        sorted_notes = sorted(self.notes, key=lambda note: note.tags)
+        return sorted_notes
