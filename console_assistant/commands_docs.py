@@ -15,6 +15,7 @@ def display_documentation():
     show all - вивід всіх нотатків
     sort by tags - сортування за тегами
     delete - видалення нотатки
+    search by tags - сортування за тегами
     exit - вихід з цієї команди
 
     sort folder - надає доступ до наступних команд

@@ -95,7 +95,7 @@ def work_func():
                     sh_words = input('Enter a note to search for: ')
                     results = notebook.search_notes(sh_words)
                     for note in results:
-                        print(note.title)
+                        print(note.title, '-', note.text, '-', note.tags)
                         
                 if commandd == 'edit':
                     note_ed = input('Enter a note to change the shift: ')
@@ -110,7 +110,7 @@ def work_func():
                         
                 if commandd == 'show all':
                     for note in notebook.notes:
-                        print(note.title, "-", note.text)
+                        print(note.title, "-", note.text, note.tags)
                         
                 if commandd == 'search by tags':
                     tag = input('Enter a tag: ')
