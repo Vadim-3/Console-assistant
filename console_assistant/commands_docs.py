@@ -1,5 +1,6 @@
 def display_documentation():
     documentation = """
+    Address book
     address book - надає доступ до наступних команд
     add contact - додавання контакту у книгу
     birthday - вивід списку контактів, у яких день народження через задану кількість днів від поточної дати
@@ -8,6 +9,7 @@ def display_documentation():
     delete contact - видалення контакту
     exit - вихід з цієї команди
 
+    Notes
     notes - надає доступ до наступних команд
     add note - додавання нотаток 
     search - пошук нотатків за словами
@@ -18,10 +20,12 @@ def display_documentation():
     search by tags - сортування за тегами
     exit - вихід з цієї команди
 
+    Sort folder
     sort folder - надає доступ до наступних команд
     sort folder - сортування папки
     exit - вихід з цієї команди
     
+    Weather
     weather - надає доступ до наступних команд
     get weather - виводить погоду у введеному місті
     exit - вихід з цієї команди
